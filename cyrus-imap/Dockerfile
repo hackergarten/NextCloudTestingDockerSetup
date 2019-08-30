@@ -1,12 +1,12 @@
-FROM ubuntu:bionic 
+from debian:8.0
 
-RUN apt-get update 
-RUN export TZ="Europe/Berlin"
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update && apt-get -y upgrade
+
 RUN echo "cyrus-common cyrus-common/removespools boolean true" | debconf-set-selections
-RUN echo "postfix postfix/mailname string your.hostname.com" | debconf-set-selections
-RUN echo "postfix postfix/main_mailer_type string 'Internet Site'" | debconf-set-selections
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq postfix  sasl2-bin cyrus-imapd cyrus-clients cyrus-doc cyrus-admin 
+RUN apt-get -y install cyrus-imapd cyrus-admin sasl2-bin
 
 RUN mkdir -p /run/cyrus/proc && chown -R cyrus /run/cyrus
 
@@ -18,7 +18,4 @@ RUN echo "cyrus"|saslpasswd2 -u test -c cyrus -p
 RUN echo "bob"|saslpasswd2 -u test -c bob -p
 RUN echo "alice"|saslpasswd2 -u test -c alice -p
 
-
-ENTRYPOINT /bin/sh
-
-
+CMD /usr/sbin/cyrmaster
