@@ -1,0 +1,23 @@
+Test Setup for Nextcloud and IMAP using Docker
+==============================================
+
+When Nextcloud externalized the user_external authentcation method from the core into a seperate app, it was assigned a version number below 1.0.0 and cause some trouble by introducing breaking changes as documented in https://github.com/nextcloud/user_external/issues/52[Issue #52].
+
+To demonstrate the gap in behaviour and validate a new version of the plugin/app still works (to prevent the trouble happening again), this repository contains the attempt the create a setup encapsulated in Docker containers.
+
+== Current state
+
+* base work in creating the docker and imap caontainer
+* cyrus config in _master_ does not contain a working version. As we couldn't figure out (during Hackergarten Basel) why it doesn't run on ubuntu, the branch _debian_ contains a working setup using a debian base image.
+
+== ToDo
+
+* Configure Cyrus IMAP to reflect the given setup used by @madmas
+* configure Nextcloud to use that Cyrus instance as an authentication source
+* replay typical usecases and demonstrate if if app is working as expected 
+
+== Useful links
+
+* https://github.com/nextcloud/docker
+* https://github.com/cyrusimap/cyrus-docker - they only use docker for test runs, not for a running cyrus server
+* https://github.com/linagora/cyrus-docker - a working cyrus setup in Docker using Debian
